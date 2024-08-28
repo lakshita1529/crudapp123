@@ -1,0 +1,1 @@
+export const DATABASE_URL = 'https://crudapp-b2cf6-default-rtdb.firebaseio.com';
