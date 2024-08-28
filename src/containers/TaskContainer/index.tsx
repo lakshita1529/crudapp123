@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import InputContainer from '../InputContainer';
-import TaskView from '../../views/TaskView';
 import useTasks from '../../hooks/useTasks';
 import useAddTask from '../../hooks/useAddTask';
 import useDeleteTask from '../../hooks/useDeleteTask';
 import useEditTask from '../../hooks/useEditTask';
+import TaskView from '../../views/TaskView';
 
 const TaskContainer: React.FC = () => {
-
   const { tasks, loading, loadTasks } = useTasks();
   const { title, setTitle, description, setDescription, addTask } = useAddTask(loadTasks);
-  const deleteTask = useDeleteTask(loadTasks);
   const { editingTask, setEditingTask, editTask } = useEditTask(loadTasks);
+  const deleteTask = useDeleteTask(loadTasks);
+
 
   useEffect(() => {
     if (editingTask) {
@@ -23,37 +23,38 @@ const TaskContainer: React.FC = () => {
     }
   }, [editingTask, setTitle, setDescription]);
 
- 
+  const handleSubmit = () => {
+    if (editingTask) {
+      editTask({
+        id: editingTask.id,
+        title,
+        description
+      });
+    } else {
+      addTask();
+    }
+  };
+
   const handleEdit = (taskId: string) => {
-    const task = tasks.find(t => t.id === taskId);
+    const task = tasks.find((t) => t.id === taskId);
     if (task) {
       setEditingTask(task);
     }
   };
 
   return (
-    <div className="task-container container">
-      <h2 className="text-center my-4">Task Management</h2>
-      {loading ? (
-        <div className="text-center">Loading...</div>
-      ) : (
-        <>
-          <InputContainer
-            title={title}
-            description={description}
-            setTitle={setTitle}
-            setDescription={setDescription}
-            onSubmit={editingTask ? editTask : addTask}
-            isEditing={!!editingTask}
-          />
-          <TaskView
-            tasks={tasks}
-            onEdit={handleEdit}
-            onDelete={deleteTask}
-          />
-        </>
-      )}
-    </div>
+    <>
+      <InputContainer
+        title={title}
+        description={description}
+        setTitle={setTitle}
+        setDescription={setDescription}
+        onSubmit={handleSubmit}
+        isEditing={!!editingTask}
+      />
+      <TaskView tasks={tasks} onEdit={handleEdit} onDelete={deleteTask} loading={loading}
+      />
+    </>
   );
 };
 

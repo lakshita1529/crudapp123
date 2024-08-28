@@ -1,39 +1,55 @@
-import InputField from '../../components/base/InputField';
+import React from 'react';
+import { Form, Button } from 'react-bootstrap';
 
 interface InputContainerProps {
   title: string;
   description: string;
-  setTitle: (value: string) => void;
-  setDescription: (value: string) => void;
+  setTitle: (title: string) => void;
+  setDescription: (description: string) => void;
   onSubmit: () => void;
   isEditing: boolean;
 }
 
 const InputContainer: React.FC<InputContainerProps> = ({
-  title,description,setTitle,setDescription,onSubmit,isEditing
+  title,
+  description,
+  setTitle,
+  setDescription,
+  onSubmit,
+  isEditing,
 }) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <div className="input-container">
-      <div className="form-group mb-3">
-        <InputField
+    <Form onSubmit={handleSubmit} className="mb-4">
+      <Form.Group controlId="taskTitle">
+        <Form.Label>Task Title</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Task Title"
-          className="form-control"
         />
-      </div>
-      <div className="form-group mb-3">
-        <InputField
+      </Form.Group>
+
+      <Form.Group controlId="taskDescription" className="mt-3">
+        <Form.Label>Task Description</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          placeholder="Enter description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Task Description"
-          className="form-control"
         />
-      </div>
-      <button onClick={onSubmit} className="btn btn-primary">
-        {isEditing ? 'Update Task' : 'Add Task'}
-      </button>
-    </div>
+      </Form.Group>
+
+      <Button variant="primary" type="submit" className="mt-3">
+        {isEditing ? 'Edit Task' : 'Add Task'}
+      </Button>
+    </Form>
   );
 };
 

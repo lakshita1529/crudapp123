@@ -32,12 +32,15 @@ export const createTask = async (task: { title: string; description: string }) =
 
 export const updateTask = async (taskId: string, task: { title: string; description: string }) => {
   try {
-    await APIClient.put(`/tasks/${taskId}.json`, task);
+    console.log('Updating task:', taskId, task);  // Add this to see what's being sent
+    await APIClient.patch(`/tasks/${taskId}.json`, task);
+    console.log('Task updated successfully');  // Add this to confirm the request was successful
   } catch (error) {
     console.error('Error updating task:', error);
     throw error;
   }
 };
+
 
 export const deleteTask = async (taskId: string) => {
   try {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext'; // Auth context for logout
 import { useNavigate } from 'react-router-dom';
-import TaskContainer from '../../containers/TaskContainer';
+import TaskContainer from '../../containers/TaskContainer'; // Handles task logic
 import { Button } from 'react-bootstrap';
 
 const TaskPage: React.FC = () => {
@@ -21,6 +21,8 @@ const TaskPage: React.FC = () => {
           Logout
         </Button>
       </div>
+
+      {/* Task Container handles all logic for task management */}
       <TaskContainer />
     </div>
   );
