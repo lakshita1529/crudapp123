@@ -9,7 +9,7 @@ const useAddTask = (loadTasks: () => void) => {
     if (title.trim() && description.trim()) {
       try {
         await createTask({ title, description });
-        await loadTasks(); // Refresh tasks
+        await loadTasks();
         setTitle('');
         setDescription('');
       } catch (error) {
